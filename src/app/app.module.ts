@@ -10,6 +10,10 @@ import { AddTestComponent } from './components/add-test/add-test.component';
 import { UpdateTestComponent } from './components/update-test/update-test.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { VirusStatusPipe } from './pipes/virus-status.pipe';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -24,7 +28,9 @@ import { VirusStatusPipe } from './pipes/virus-status.pipe';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
