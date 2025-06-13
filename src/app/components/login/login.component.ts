@@ -23,19 +23,22 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() 
-  {
-  if (this.loginForm.invalid) return;
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
 
-  const { email, password } = this.loginForm.value;
-  console.log('Form Submitted:', email, password); // 👈 ADD THIS
+    const { email, password } = this.loginForm.value;
+    console.log('Form Submitted:', email, password);
 
-  this.authService.login(email, password).subscribe({
-    next: () => this.router.navigate(['/tests']),
-    error: (err) => {
-      console.error('Login error:', err); // 👈 ADD THIS
-      this.errorMessage = 'Invalid email or password';
-    }
-  });
-}
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        const token = this.authService.getToken();
+        console.log('Stored Token:', token); // ✅ Confirm token storage
+        this.router.navigate(['/tests']);
+      },
+      error: (err) => {
+        console.error('Login error:', err);
+        this.errorMessage = 'Invalid email or password';
+      }
+    });
+  }
 }

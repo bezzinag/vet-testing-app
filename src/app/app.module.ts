@@ -11,7 +11,12 @@ import { UpdateTestComponent } from './components/update-test/update-test.compon
 import { HeaderComponent } from './layout/header/header.component';
 import { VirusStatusPipe } from './pipes/virus-status.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+
+
+
+import { AuthInterceptor } from './auth.interceptor'; // Import the AuthInterceptor
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 
 
@@ -32,7 +37,13 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+
+interface AuthResponse {
+  accessToken: string;
+  tokenType: string; // Optional, not used in this version
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth'; // Change if needed
+  private readonly apiUrl = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<{ token: string }>(this.apiUrl, { email, password }).pipe(
-      tap((response) => {
-        localStorage.setItem('token', response.token);
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(this.apiUrl, { email, password }).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.accessToken); // Save raw token only
       })
     );
   }
@@ -23,7 +27,8 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('token');
   }
 }
+// This service handles authentication by providing methods to log in, retrieve the token, and log out.
