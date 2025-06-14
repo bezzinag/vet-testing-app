@@ -1,1 +1,61 @@
-<p>update-test works!</p>
+<h2>Update Test</h2>
+
+<form [formGroup]="testForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <label>Vet Reg. Number:
+    <input formControlName="vetRegistrationNumber" />
+  </label>
+
+  <label>Pet Type:
+  <select formControlName="petType">
+    <option *ngFor="let type of petTypes" [value]="type">{{ type }}</option>
+  </select>
+</label>
+
+
+  <label>Microchip No:
+    <input formControlName="petMicrochipNumber" />
+  </label>
+
+  <label>Owner ID:
+    <input formControlName="ownerIdCardNumber" />
+  </label>
+
+  <label>First Name:
+    <input formControlName="ownerFirstName" />
+  </label>
+
+  <label>Last Name:
+    <input formControlName="ownerLastName" />
+  </label>
+
+  <label>Contact No:
+    <input formControlName="ownerContactNumber" />
+  </label>
+
+  <label>Email:
+    <input formControlName="ownerEmailAddress" type="email" />
+  </label>
+
+  <label>Address:
+    <input formControlName="ownerAddress" />
+  </label>
+
+  <label>Locality:
+    <select formControlName="ownerLocality">
+      <option *ngFor="let loc of localities" [value]="loc">{{ loc }}</option>
+    </select>
+  </label>
+
+  <label>Post Code:
+    <input formControlName="ownerPostCode" />
+  </label>
+
+  <label>Virus Detected:
+    <label><input type="radio" formControlName="isVirusDetected" [value]="true" /> Yes</label>
+    <label><input type="radio" formControlName="isVirusDetected" [value]="false" /> No</label>
+  </label>
+
+  <button type="submit" [disabled]="testForm.invalid">Update</button>
+</form>

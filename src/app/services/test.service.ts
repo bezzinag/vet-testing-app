@@ -15,15 +15,16 @@ export class TestService {
     return this.http.get<Test[]>(this.apiUrl);
   }
 
-  // Future implementations:
-  // getTestById(id: number): Observable<Test> {
-  //   return this.http.get<Test>(`${this.apiUrl}/${id}`);
-  // }
+  getTestById(id: number): Observable<Test> {
+  return this.http.get<Test>(`${this.apiUrl}/${id}`);
+}
 
-  // addTest(test: Test): Observable<Test> {
-  //   return this.http.post<Test>(this.apiUrl, test);
-  // }
-
+  addTest(testData: Partial<Test>): Observable<Test> {
+  return this.http.post<Test>('http://localhost:8080/api/pettests', testData);
+}
+  updateTest(id: number, test: Test): Observable<Test> {
+  return this.http.put<Test>(`${this.apiUrl}/${id}`, test);
+}
   // updateTest(id: number, test: Test): Observable<Test> {
   //   return this.http.put<Test>(`${this.apiUrl}/${id}`, test);
   // }

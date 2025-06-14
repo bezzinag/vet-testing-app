@@ -1,1 +1,20 @@
-<p>test-details works!</p>
+<h2>Test Details</h2>
+
+<div *ngIf="test; else errorTemplate">
+  <p><strong>Test ID:</strong> {{ test.testId }}</p>
+  <p><strong>Vet Reg. No:</strong> {{ test.vetRegistrationNumber }}</p>
+  <p><strong>Pet Type:</strong> {{ test.petType }}</p>
+  <p><strong>Microchip No:</strong> {{ test.petMicrochipNumber }}</p>
+  <p><strong>Owner ID:</strong> {{ test.ownerIdCardNumber }}</p>
+  <p><strong>Name:</strong> {{ test.ownerFirstName }} {{ test.ownerLastName }}</p>
+  <p><strong>Contact:</strong> {{ test.ownerContactNumber }}</p>
+  <p><strong>Email:</strong> {{ test.ownerEmailAddress }}</p>
+  <p><strong>Address:</strong> {{ test.ownerAddress }}</p>
+  <p><strong>Locality:</strong> {{ test.ownerLocality }}</p>
+  <p><strong>Post Code:</strong> {{ test.ownerPostCode }}</p>
+  <p><strong>Virus Detected:</strong> {{ test.isVirusDetected ? 'Yes' : 'No' }}</p>
+</div>
+
+<ng-template #errorTemplate>
+  <p>{{ errorMessage }}</p>
+</ng-template>

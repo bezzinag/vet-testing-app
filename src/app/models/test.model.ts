@@ -1,12 +1,15 @@
-
 export interface Test {
-  id: number;
-  petName: string;
+  testId: number;
+  vetRegistrationNumber: string;
   petType: string;
-  ownerName: string;
-  locality: string;
-  testType: string;
-  status: string;
-  result: string;
-  dateSubmitted: string; // ISO format recommended, e.g. "2025-06-14T10:30:00Z"
+  petMicrochipNumber: string;
+  ownerIdCardNumber: string;
+  ownerFirstName: string;
+  ownerLastName: string;
+  ownerContactNumber: string;
+  ownerEmailAddress: string;
+  ownerAddress: string;
+  ownerLocality: string;
+  ownerPostCode: string;
+  isVirusDetected: boolean;
 }
