@@ -1,8 +1,8 @@
 export interface Test {
-  testId: number;
-  vetRegistrationNumber: string;
+  testId: number;  // ✅ corrected to match backend
+  vetRegistrationNumber: number;
   petType: string;
-  petMicrochipNumber: string;
+  petMicrochipNumber: number;
   ownerIdCardNumber: string;
   ownerFirstName: string;
   ownerLastName: string;
