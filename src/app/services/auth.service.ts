@@ -4,7 +4,6 @@ import { Observable, tap } from 'rxjs';
 
 interface AuthResponse {
   accessToken: string;
-  tokenType: string; // Optional, not used in this version
 }
 
 @Injectable({
@@ -15,13 +14,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(this.apiUrl, { email, password }).pipe(
-      tap(response => {
-        localStorage.setItem('token', response.accessToken); // Save raw token only
-      })
-    );
-  }
+  login(email: string, password: string): Observable<any> {
+  return this.http.post<any>(this.apiUrl, { email, password }).pipe(
+    tap(response => {
+      console.log('[DEBUG] Raw login response:', response);
+      localStorage.setItem('token', response.accessToken); // may be undefined
+    })
+  );
+}
 
   getToken(): string | null {
     return localStorage.getItem('token');
@@ -31,4 +31,3 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 }
-// This service handles authentication by providing methods to log in, retrieve the token, and log out.

@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+// Routing
 import { AppRoutingModule } from './app-routing.module';
+
+// Components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { ViewTestsComponent } from './components/view-tests/view-tests.component';
@@ -9,16 +14,12 @@ import { TestDetailsComponent } from './components/test-details/test-details.com
 import { AddTestComponent } from './components/add-test/add-test.component';
 import { UpdateTestComponent } from './components/update-test/update-test.component';
 import { HeaderComponent } from './layout/header/header.component';
+
+// Pipes
 import { VirusStatusPipe } from './pipes/virus-status.pipe';
-import { ReactiveFormsModule } from '@angular/forms';
 
-
-
-import { AuthInterceptor } from './auth.interceptor'; // Import the AuthInterceptor
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-
-
+// Interceptors
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
+      multi: true // 👈 Allows stacking multiple interceptors
     }
   ],
   bootstrap: [AppComponent]
