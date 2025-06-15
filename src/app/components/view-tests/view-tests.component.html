@@ -1,12 +1,20 @@
 <div class="container mt-4">
   <h2 class="mb-3">Submitted Tests</h2>
-  <p class="text-muted">Role: {{ userRole }}</p>
+  <p class="text-muted">Logged in as: {{ userRole }}</p>
 
+  <!-- VET can add new test -->
+  <div *ngIf="userRole === 'VET'" class="mb-3">
+    <a routerLink="/add-test" class="btn btn-success">
+      ➕ Add New Test
+    </a>
+  </div>
 
+  <!-- Error message -->
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
 
+  <!-- Test list table -->
   <ng-container *ngIf="tests.length > 0; else noTests">
     <table class="table table-bordered table-hover table-striped">
       <thead class="table-dark text-center">
@@ -27,12 +35,21 @@
           <td>{{ test.ownerLocality }}</td>
           <td>{{ test.isVirusDetected | virusStatus }}</td>
           <td>
-            <a [routerLink]="['/tests', test.testId]" class="btn btn-sm btn-info me-2">View</a>
-            <a *ngIf="userRole === 'ADMIN' || userRole === 'CLERK'" 
-               [routerLink]="['/update-test', test.testId]" 
-               class="btn btn-sm btn-warning me-2">Edit</a>
-            <button *ngIf="userRole === 'ADMIN'" 
-                    (click)="deleteTest(test.testId)" 
+            <!-- View: all roles -->
+            <a [routerLink]="['/tests', test.testId]" class="btn btn-sm btn-info me-2">
+              View
+            </a>
+
+            <!-- Edit: Admin and Clerk only -->
+            <a *ngIf="userRole === 'ADMIN' || userRole === 'CLERK'"
+               [routerLink]="['/update-test', test.testId]"
+               class="btn btn-sm btn-warning me-2">
+              Edit
+            </a>
+
+            <!-- Delete: Admin only -->
+            <button *ngIf="userRole === 'ADMIN'"
+                    (click)="deleteTest(test.testId)"
                     class="btn btn-sm btn-danger">
               Delete
             </button>
@@ -42,6 +59,7 @@
     </table>
   </ng-container>
 
+  <!-- No tests fallback -->
   <ng-template #noTests>
     <div class="alert alert-info text-center">No tests available.</div>
   </ng-template>

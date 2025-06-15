@@ -3,58 +3,70 @@ import { TestService } from '../../services/test.service';
 import { Test } from '../../models/test.model';
 import { jwtDecode } from 'jwt-decode';
 
-@Component({
-  selector: 'app-view-tests',
-  templateUrl: './view-tests.component.html',
-  styleUrls: ['./view-tests.component.scss']
-})
-export class ViewTestsComponent implements OnInit {
+@Component(
+  {
+    selector: 'app-view-tests',
+    templateUrl: './view-tests.component.html',
+    styleUrls: ['./view-tests.component.scss']
+  })
+
+export class ViewTestsComponent implements OnInit 
+{
   tests: Test[] = [];
-  errorMessage = '';
+  errorMessage: string = '';
   userRole: string = '';
 
   constructor(private testService: TestService) {}
 
-  ngOnInit(): void {
-    this.extractUserRole(); // Extract user role from token
-    this.loadTests();
-    
+  ngOnInit(): void 
+  {
+    this.setUserRoleFromToken();
+    this.fetchTests();
   }
 
-  private loadTests(): void {
-    this.testService.getAllTests().subscribe({
-      next: (tests) => this.tests = tests,
-      error: (error) => {
-        this.errorMessage = 'Failed to load tests.';
-        console.error('Error fetching tests:', error);
+  private setUserRoleFromToken(): void 
+  {
+    const token = localStorage.getItem('token');
+
+    if (!token) 
+      {
+        this.userRole = '';
+        return;
+      } 
+
+    try 
+    {
+      const decoded: any = jwtDecode(token);
+      this.userRole = decoded.roles?.replace('ROLE_', '');
+      console.log('[ViewTests] User Role:', this.userRole);
+    } 
+    catch (error) 
+      {
+        console.error('[ViewTests] Token decode failed:', error);
+        this.userRole = '';
       }
-    });
   }
 
-
-
-  private extractUserRole(): void {
-  const token = localStorage.getItem('token');
-  if (token) {
-    const decoded: any = jwtDecode(token);
-    this.userRole = decoded.roles?.replace('ROLE_', '');
-    console.log('User Role:', this.userRole); // should now say: CLERK
+  private fetchTests(): void 
+  {
+    this.testService.getAllTests().subscribe(
+      {
+        next: (data) => this.tests = data,
+        error: (err) => {this.errorMessage = 'Failed to load tests.';
+          console.error('[ViewTests] Test fetch failed:', err);}
+      });
   }
-}
 
+  deleteTest(id: number): void 
+  {
+    if (!confirm('Are you sure you want to delete this test?')) return;
 
-  deleteTest(id: number): void {
-    const confirmed = confirm('Are you sure you want to delete this test?');
-    if (!confirmed) return;
+    this.testService.deleteTest(id).subscribe(
+      {
+        next: () => {this.tests = this.tests.filter(test => test.testId !== id);},
 
-    this.testService.deleteTest(id).subscribe({
-      next: () => {
-        this.tests = this.tests.filter(test => test.testId !== id);
-      },
-      error: (err) => {
-        console.error('Delete failed:', err);
-        alert('Failed to delete test.');
-      }
-    });
+        error: (err) => {console.error('[ViewTests] Delete failed:', err);
+        alert('Failed to delete test.');}
+      });
   }
 }

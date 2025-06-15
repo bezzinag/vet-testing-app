@@ -1,5 +1,6 @@
-export interface Test {
-  testId: number;  // ✅ corrected to match backend
+export interface Test 
+{
+  testId: number;  //  corrected to match backend
   vetRegistrationNumber: number;
   petType: string;
   petMicrochipNumber: number;

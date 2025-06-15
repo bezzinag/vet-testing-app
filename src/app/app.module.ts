@@ -21,30 +21,37 @@ import { VirusStatusPipe } from './pipes/virus-status.pipe';
 // Interceptors
 import { AuthInterceptor } from './auth.interceptor';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    ViewTestsComponent,
-    TestDetailsComponent,
-    AddTestComponent,
-    UpdateTestComponent,
-    HeaderComponent,
-    VirusStatusPipe
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [
-    {
+@NgModule(
+  {
+    declarations: 
+    [
+      AppComponent,
+      LoginComponent,
+      ViewTestsComponent,
+      TestDetailsComponent,
+      AddTestComponent,
+      UpdateTestComponent,
+      HeaderComponent,
+      VirusStatusPipe
+    ],
+
+    imports: 
+    [
+      BrowserModule,
+      AppRoutingModule,
+      ReactiveFormsModule,
+      HttpClientModule
+    ],
+    
+    providers: 
+    [{
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true // 👈 Allows stacking multiple interceptors
-    }
-  ],
-  bootstrap: [AppComponent]
-})
+      multi: true //  Allows stacking multiple interceptors
+    }],
+
+    bootstrap: [AppComponent]
+  } 
+)
+
 export class AppModule { }
