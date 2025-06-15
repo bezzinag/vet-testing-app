@@ -12,7 +12,12 @@ export class AddTestComponent implements OnInit {
   testForm!: FormGroup;
   errorMessage = '';
   petTypes = ['Dog', 'Cat'];
-  localities = [/* (same locality array as update-test.component.ts) */];
+  localities = [
+    'Attard', 'Balzan', 'Birkirkara', 'Birżebbuġa', 'Fgura', 'Gżira', 'Ħamrun', 'Iklin',
+    'Luqa', 'Marsa', 'Marsaskala', 'Marsaxlokk', 'Mellieħa', 'Mosta', 'Msida', 'Naxxar',
+    'Paola', 'Pembroke', 'Qormi', 'Rabat (Malta)', 'San Ġiljan', 'Sliema', 'Swieqi',
+    'Tarxien', 'Valletta', 'Żabbar', 'Żebbuġ (Malta)', 'Żejtun', 'Żurrieq'
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -25,21 +30,21 @@ export class AddTestComponent implements OnInit {
       vetRegistrationNumber: ['', Validators.required],
       petType: ['', Validators.required],
       petMicrochipNumber: ['', Validators.required],
-      ownerIdCardNumber: ['', Validators.required],
+      ownerIdCardNumber: ['', [Validators.required, Validators.pattern(/^\d{7}[A-Z]$/)]],
       ownerFirstName: ['', Validators.required],
       ownerLastName: ['', Validators.required],
-      ownerContactNumber: ['', Validators.required],
+      ownerContactNumber: ['', [Validators.required, Validators.pattern(/^\d{8,}$/)]],
       ownerEmailAddress: ['', [Validators.required, Validators.email]],
       ownerAddress: ['', Validators.required],
       ownerLocality: ['', Validators.required],
-      ownerPostCode: ['', Validators.required],
+      ownerPostCode: ['', [Validators.required, Validators.pattern(/^[A-Z]{3} \d{4}$/)]],
       isVirusDetected: [false]
     });
   }
 
   onSubmit(): void {
     if (this.testForm.invalid) {
-      this.errorMessage = 'Please complete all required fields.';
+      this.errorMessage = 'Please complete all required fields correctly.';
       return;
     }
 

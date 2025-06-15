@@ -1,5 +1,7 @@
 <div class="container mt-4">
   <h2 class="mb-3">Submitted Tests</h2>
+  <p class="text-muted">Role: {{ userRole }}</p>
+
 
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
@@ -13,6 +15,7 @@
           <th>Pet Type</th>
           <th>Owner</th>
           <th>Locality</th>
+          <th>Virus</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -22,11 +25,17 @@
           <td>{{ test.petType }}</td>
           <td>{{ test.ownerFirstName }} {{ test.ownerLastName }}</td>
           <td>{{ test.ownerLocality }}</td>
+          <td>{{ test.isVirusDetected | virusStatus }}</td>
           <td>
             <a [routerLink]="['/tests', test.testId]" class="btn btn-sm btn-info me-2">View</a>
-<a *ngIf="userRole === 'ADMIN' || userRole === 'CLERK'" 
-   [routerLink]="['/update-test', test.testId]" 
-   class="btn btn-sm btn-warning">Edit</a>
+            <a *ngIf="userRole === 'ADMIN' || userRole === 'CLERK'" 
+               [routerLink]="['/update-test', test.testId]" 
+               class="btn btn-sm btn-warning me-2">Edit</a>
+            <button *ngIf="userRole === 'ADMIN'" 
+                    (click)="deleteTest(test.testId)" 
+                    class="btn btn-sm btn-danger">
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>

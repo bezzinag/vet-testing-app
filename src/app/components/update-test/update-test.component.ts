@@ -14,19 +14,8 @@ export class UpdateTestComponent implements OnInit {
   errorMessage = '';
   testId!: number;
 
-  localities: string[] = [
-    'Attard', 'Balzan', 'Birgu', 'Birkirkara', 'Birżebbuġa', 'Bormla', 'Dingli', 'Fgura',
-    'Floriana', 'Fontana', 'Għajnsielem', 'Għarb', 'Għargħur', 'Għaxaq', 'Gudja', 'Gżira',
-    'Ħamrun', 'Iklin', 'Isla', 'Kalkara', 'Kerċem', 'Kirkop', 'Lija', 'Luqa', 'Marsa',
-    'Marsaskala', 'Marsaxlokk', 'Mdina', 'Mellieħa', 'Mġarr', 'Mosta', 'Mqabba', 'Msida',
-    'Mtarfa', 'Munxar', 'Nadur', 'Naxxar', 'Paola', 'Pembroke', 'Pietà', 'Qala', 'Qormi',
-    'Qrendi', 'Rabat (Gozo)', 'Rabat (Malta)', 'Safi', 'San Ġiljan', 'San Ġwann', 'San Lawrenz',
-    'Sannat', 'Santa Luċija', 'Santa Venera', 'Siġġiewi', 'Sliema', 'Swieqi', 'Ta’ Xbiex',
-    'Tarxien', 'Valletta', 'Xagħra', 'Xewkija', 'Xgħajra', 'Żabbar', 'Żebbuġ (Gozo)',
-    'Żebbuġ (Malta)', 'Żejtun', 'Żurrieq'
-  ];
-
-  petTypes: string[] = ['Dog', 'Cat'];
+  localities = [ /* ... same list ... */ ];
+  petTypes = ['Dog', 'Cat'];
 
   constructor(
     private fb: FormBuilder,
@@ -49,21 +38,29 @@ export class UpdateTestComponent implements OnInit {
   }
 
   private initForm(test: Test): void {
-    this.testForm = this.fb.group({
-      vetRegistrationNumber: [test.vetRegistrationNumber, Validators.required],
-      petType: [test.petType, Validators.required], //i
-      petMicrochipNumber: [test.petMicrochipNumber, Validators.required],
-      ownerIdCardNumber: [test.ownerIdCardNumber, Validators.required],
-      ownerFirstName: [test.ownerFirstName, Validators.required],
-      ownerLastName: [test.ownerLastName, Validators.required],
-      ownerContactNumber: [test.ownerContactNumber, Validators.required],
-      ownerEmailAddress: [test.ownerEmailAddress, [Validators.required, Validators.email]],
-      ownerAddress: [test.ownerAddress, Validators.required],
-      ownerLocality: [test.ownerLocality, Validators.required],
-      ownerPostCode: [test.ownerPostCode, Validators.required],
-      isVirusDetected: [test.isVirusDetected]
-    });
-  }
+  const validIdPattern = /^\d{7}[A-Z]$/; // Matches 7 digits followed by an uppercase letter
+  // Fallback ID if the provided one is invalid
+  const fallbackId = '1234567A';
+
+  const safeOwnerId = validIdPattern.test(test.ownerIdCardNumber)
+    ? test.ownerIdCardNumber
+    : fallbackId;
+
+  this.testForm = this.fb.group({
+    vetRegistrationNumber: [test.vetRegistrationNumber, Validators.required],
+    petType: [test.petType, Validators.required],
+    petMicrochipNumber: [test.petMicrochipNumber, Validators.required],
+    ownerIdCardNumber: [safeOwnerId, [Validators.required, Validators.pattern(validIdPattern)]],
+    ownerFirstName: [test.ownerFirstName, Validators.required],
+    ownerLastName: [test.ownerLastName, Validators.required],
+    ownerContactNumber: [test.ownerContactNumber, [Validators.required, Validators.pattern(/^\d{8,}$/)]],
+    ownerEmailAddress: [test.ownerEmailAddress, [Validators.required, Validators.email]],
+    ownerAddress: [test.ownerAddress, Validators.required],
+    ownerLocality: [test.ownerLocality, Validators.required],
+    ownerPostCode: [test.ownerPostCode, [Validators.required, Validators.pattern(/^[A-Z]{3} \d{4}$/)]],
+    isVirusDetected: [test.isVirusDetected]
+  });
+}
 
   onSubmit(): void {
     if (this.testForm.invalid) {

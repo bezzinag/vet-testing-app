@@ -1,61 +1,89 @@
-<h2>Update Test</h2>
+<h2 class="mb-3">Update Test</h2>
 
-<form [formGroup]="testForm" (ngSubmit)="onSubmit()">
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+<form *ngIf="testForm" [formGroup]="testForm" (ngSubmit)="onSubmit()" class="form-container">
 
-  <label>Vet Reg. Number:
-    <input formControlName="vetRegistrationNumber" />
-  </label>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
 
-  <label>Pet Type:
-  <select formControlName="petType">
-    <option *ngFor="let type of petTypes" [value]="type">{{ type }}</option>
-  </select>
-</label>
+  <div class="form-group mb-3">
+    <label for="vetReg">Vet Reg. Number:</label>
+    <input id="vetReg" formControlName="vetRegistrationNumber" class="form-control" />
+  </div>
 
+  <div class="form-group mb-3">
+    <label for="petType">Pet Type:</label>
+    <select id="petType" formControlName="petType" class="form-select">
+      <option *ngFor="let type of petTypes" [value]="type">{{ type }}</option>
+    </select>
+  </div>
 
-  <label>Microchip No:
-    <input formControlName="petMicrochipNumber" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="microchip">Microchip No:</label>
+    <input id="microchip" formControlName="petMicrochipNumber" class="form-control" />
+  </div>
 
-  <label>Owner ID:
-    <input formControlName="ownerIdCardNumber" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="ownerId">Owner ID:</label>
+    <input id="ownerId" formControlName="ownerIdCardNumber" class="form-control" />
+  </div>
 
-  <label>First Name:
-    <input formControlName="ownerFirstName" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="firstName">First Name:</label>
+    <input id="firstName" formControlName="ownerFirstName" class="form-control" />
+  </div>
 
-  <label>Last Name:
-    <input formControlName="ownerLastName" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" formControlName="ownerLastName" class="form-control" />
+  </div>
 
-  <label>Contact No:
-    <input formControlName="ownerContactNumber" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="contact">Contact No:</label>
+    <input id="contact" formControlName="ownerContactNumber" class="form-control" />
+  </div>
 
-  <label>Email:
-    <input formControlName="ownerEmailAddress" type="email" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="email">Email:</label>
+    <input id="email" formControlName="ownerEmailAddress" type="email" class="form-control" />
+  </div>
 
-  <label>Address:
-    <input formControlName="ownerAddress" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="address">Address:</label>
+    <input id="address" formControlName="ownerAddress" class="form-control" />
+  </div>
 
-  <label>Locality:
-    <select formControlName="ownerLocality">
+  <div class="form-group mb-3">
+    <label for="locality">Locality:</label>
+    <select id="locality" formControlName="ownerLocality" class="form-select">
       <option *ngFor="let loc of localities" [value]="loc">{{ loc }}</option>
     </select>
-  </label>
+  </div>
 
-  <label>Post Code:
-    <input formControlName="ownerPostCode" />
-  </label>
+  <div class="form-group mb-3">
+    <label for="postcode">Post Code:</label>
+    <input id="postcode" formControlName="ownerPostCode" class="form-control" />
+  </div>
 
-  <label>Virus Detected:
-    <label><input type="radio" formControlName="isVirusDetected" [value]="true" /> Yes</label>
-    <label><input type="radio" formControlName="isVirusDetected" [value]="false" /> No</label>
-  </label>
+  <div class="form-group mb-3">
+    <label class="d-block">Virus Detected:</label>
+    <div class="form-check form-check-inline">
+      <input type="radio" id="virusYes" formControlName="isVirusDetected" class="form-check-input" [value]="true" />
+      <label for="virusYes" class="form-check-label">Yes</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input type="radio" id="virusNo" formControlName="isVirusDetected" class="form-check-input" [value]="false" />
+      <label for="virusNo" class="form-check-label">No</label>
+    </div>
+  </div>
 
-  <button type="submit" [disabled]="testForm.invalid">Update</button>
+  <button type="submit" class="btn btn-primary" [disabled]="testForm.invalid">Update</button>
 </form>
+
+<!-- ✅ DEBUG INFO FOR DEV ONLY -->
+<div class="mt-4" *ngIf="testForm">
+  <h4>Form Debug Info</h4>
+  <pre>Valid: {{ testForm.valid }}</pre>
+  <pre>Status: {{ testForm.status }}</pre>
+  <pre>Value: {{ testForm.value | json }}</pre>
+</div>

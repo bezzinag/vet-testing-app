@@ -5,8 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class VirusStatusPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
+  transform(value: boolean): string {
+    return value ? 'REACTIVE' : 'NON-REACTIVE';
   }
 
 }

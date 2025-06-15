@@ -12,7 +12,8 @@
   <p><strong>Address:</strong> {{ test.ownerAddress }}</p>
   <p><strong>Locality:</strong> {{ test.ownerLocality }}</p>
   <p><strong>Post Code:</strong> {{ test.ownerPostCode }}</p>
-  <p><strong>Virus Detected:</strong> {{ test.isVirusDetected ? 'Yes' : 'No' }}</p>
+  <p><strong>Virus Detected:</strong> {{ test.isVirusDetected | virusStatus }}</p>
+  
 </div>
 
 <ng-template #errorTemplate>
