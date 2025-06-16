@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TestService } from '../../services/test.service';
 
+// This component allows users to add a new test for a pet, including details about the vet, pet, and owner.
 @Component(
   {
     selector: 'app-add-test',
@@ -10,8 +11,8 @@ import { TestService } from '../../services/test.service';
     styleUrls: ['./add-test.component.scss']
   }
 )
-
-export class AddTestComponent implements OnInit 
+// AddTestComponent is responsible for creating a new test entry in the system.
+export class AddTestComponent implements OnInit  
 
 {
   testForm!: FormGroup;
@@ -22,8 +23,14 @@ export class AddTestComponent implements OnInit
       'Paola', 'Pembroke', 'Qormi', 'Rabat (Malta)', 'San Ġiljan', 'Sliema', 'Swieqi',
       'Tarxien', 'Valletta', 'Żabbar', 'Żebbuġ (Malta)', 'Żejtun', 'Żurrieq'];
 
-  constructor(private fb: FormBuilder, private testService: TestService, private router: Router) {}
+  // Constructor initializes form builder, test service, and router for navigation.
+  // FormBuilder used to create the form group for the test form.
+  constructor(private fb: FormBuilder, private testService: TestService, private router: Router) {} 
+  
 
+  // ngOnInit ->a lifecycle hook that is called after Angular has initialized all data-bound properties.
+  // Typically used to perform component initialization, such as setting up the form controls.
+  // we initialize the testForm with the necessary form controls and validators.
   ngOnInit(): void 
   {
     this.testForm = this.fb.group(
@@ -43,6 +50,8 @@ export class AddTestComponent implements OnInit
       });
   }
 
+  // a method that is called when the form is submitted.
+  // checks if the form is valid and if not, sets an error message.
   onSubmit(): void 
   {
     if (this.testForm.invalid) 
@@ -51,6 +60,7 @@ export class AddTestComponent implements OnInit
         return;
       }
 
+    // If the form is valid, it calls the addTest method from the TestService to submit the form data.
     this.testService.addTest(this.testForm.value).subscribe(
       {next: () => this.router.navigate(['/tests']), error: () => this.errorMessage = 'Failed to submit test.'});
   }

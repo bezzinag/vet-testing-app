@@ -10,7 +10,8 @@ import { jwtDecode } from 'jwt-decode';
 
 export class RoleGuard implements CanActivate {constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree 
+  // canActivate method checks if the user has the required role to access the route
+  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree  
   {
     const expectedRoles: string[] = route.data['expectedRole'];
     const token = this.authService.getToken();

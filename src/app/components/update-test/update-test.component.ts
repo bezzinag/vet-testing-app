@@ -4,6 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TestService } from '../../services/test.service';
 import { Test } from '../../models/test.model';
 
+// UpdateTestComponent 
+// -> allows users to update an existing test for a pet.
+// -> retrieves the test details by ID,
+// -> initializes a form with the test data, and submits the updated information back to the server.
+
 @Component(
   {
     selector: 'app-update-test',
@@ -11,13 +16,14 @@ import { Test } from '../../models/test.model';
     styleUrls: ['./update-test.component.scss']
   })
 
+// responsible for updating an existing test entry in the system.
 export class UpdateTestComponent implements OnInit 
 {
   testForm!: FormGroup;
   errorMessage = '';
   testId!: number;
 
-  localities = [ /* ... same list ... */ ];
+  localities = [ /* ... same list ... */ ];  
   petTypes = ['Dog', 'Cat'];
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private testService: TestService, private router: Router) {}
@@ -38,18 +44,23 @@ export class UpdateTestComponent implements OnInit
       });
   }
 
+ 
+  // Initializ the form the test data retrieved from the service.
+  // The ownerIdCardNumber is validated against the specific pattern
+  // If the provided ID does not match -> fallback ID is used to prevent form submission errors.
   private initForm(test: Test): void 
   {
     const validIdPattern = /^\d{7}[A-Z]$/; // Matches 7 digits followed by an uppercase letter
-    // Fallback ID if the provided one is invalid
-    const fallbackId = '1234567A';
+    
+    const fallbackId = '1234567A'; // to prevent form submission errors
 
-    const safeOwnerId = validIdPattern.test(test.ownerIdCardNumber) ? test.ownerIdCardNumber : fallbackId;
-
+    const safeOwnerId = validIdPattern.test(test.ownerIdCardNumber) ? test.ownerIdCardNumber : fallbackId; 
+    
+    // Initialize the form with the test data and validators.
     this.testForm = this.fb.group(
       {
         vetRegistrationNumber: [test.vetRegistrationNumber, Validators.required],
-        petType: [test.petType, Validators.required],
+        petType: [test.petType, Validators.required], 
         petMicrochipNumber: [test.petMicrochipNumber, Validators.required],
         ownerIdCardNumber: [safeOwnerId, [Validators.required, Validators.pattern(validIdPattern)]],
         ownerFirstName: [test.ownerFirstName, Validators.required],
@@ -63,6 +74,7 @@ export class UpdateTestComponent implements OnInit
       });
   }
 
+  // Method for handling form submission.
   onSubmit(): void 
   {
     if (this.testForm.invalid) 

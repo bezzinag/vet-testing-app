@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
+// HeaderComponent
+// -> displays the header of the application.
+// -> includes a logout button that allows users to log out of the application.
+
 @Component(
   {
     selector: 'app-header',

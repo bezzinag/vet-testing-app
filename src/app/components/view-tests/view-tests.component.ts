@@ -3,6 +3,11 @@ import { TestService } from '../../services/test.service';
 import { Test } from '../../models/test.model';
 import { jwtDecode } from 'jwt-decode';
 
+// ViewTestsComponent
+// -> allows users to view a list of tests.
+// -> fetches all tests from the TestService and displays them in a table.
+// -> provides functionality to delete a test if the user confirms the action.
+
 @Component(
   {
     selector: 'app-view-tests',
@@ -10,6 +15,7 @@ import { jwtDecode } from 'jwt-decode';
     styleUrls: ['./view-tests.component.scss']
   })
 
+  
 export class ViewTestsComponent implements OnInit 
 {
   tests: Test[] = [];
@@ -24,11 +30,13 @@ export class ViewTestsComponent implements OnInit
     this.fetchTests();
   }
 
+  // Extracts the user role from the JWT token stored in localStorage.
+  // If the token is valid, it decodes the token and retrieves the role.
   private setUserRoleFromToken(): void 
   {
     const token = localStorage.getItem('token');
 
-    if (!token) 
+    if (!token)  
       {
         this.userRole = '';
         return;
@@ -47,6 +55,7 @@ export class ViewTestsComponent implements OnInit
       }
   }
 
+  // Fetches all tests from the TestService and assigns them to the tests property.
   private fetchTests(): void 
   {
     this.testService.getAllTests().subscribe(
@@ -57,6 +66,7 @@ export class ViewTestsComponent implements OnInit
       });
   }
 
+  // Deletes a test by its ID after user confirmation.
   deleteTest(id: number): void 
   {
     if (!confirm('Are you sure you want to delete this test?')) return;
