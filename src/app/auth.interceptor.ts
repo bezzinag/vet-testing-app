@@ -5,6 +5,9 @@ import { AuthService } from './services/auth.service';
 
 @Injectable()
 
+//interceptor
+// -> like this every HTTP request automatically includes the JWT token in the headers 
+// ie. —> enabling secure, authenticated communication with the backend.
 export class AuthInterceptor implements HttpInterceptor 
 {
   constructor(private authService: AuthService) {}
@@ -17,13 +20,13 @@ export class AuthInterceptor implements HttpInterceptor
       {
         const authReq = req.clone({setHeaders: 
           {
-            Authorization: `Bearer ${token}` // 🟢 Ensures backend expects correct format
+            Authorization: `Bearer ${token}` // Ensures backend expects correct format
           }});
 
         return next.handle(authReq);
       }
 
-    // 🟠 No token found, proceed without modifying request
+    // No token found, proceed without modifying request
     return next.handle(req);
   }
 }
