@@ -33,4 +33,9 @@ export class AuthService
   {
     localStorage.removeItem('token');
   }
+
+  isLoggedIn(): boolean 
+  {
+    return !!this.getToken(); // true if token exists, false if null
+  }
 }

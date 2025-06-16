@@ -1,5 +1,7 @@
-<div class="header">
+
+  <div class="header">
   <nav>
     <span>Vet Testing App</span>
-    <button (click)="logout()">Logout</button>
+    <button *ngIf="authService.isLoggedIn()" (click)="logout()">Logout</button>
   </nav>
+</div>
